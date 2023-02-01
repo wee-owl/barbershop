@@ -1,0 +1,56 @@
+.about {
+  padding: 62px 0;
+}
+
+.about__title {
+  max-width: 700px;
+  margin-bottom: 25px;
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.about__description {
+  max-width: 700px;
+  margin: 0 0 72px;
+  line-height: 1.5;
+}
+
+.about__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 384px);
+  gap: 24px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about__item {
+  padding: 6px 6px 6px 96px;
+  background-size: 80px;
+  background-position: left;
+  background-repeat: no-repeat;
+}
+
+.about__item_top {
+  background-image: url('../img/icon_spec.svg');
+}
+
+.about__item_master {
+  background-image: url('../img/icon_master.svg');
+}
+
+.about__item_quality {
+  background-image: url('../img/icon_quality.svg');
+}
+
+.about__item-title {
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.about__item-description {
+  line-height: 1.3;
+}
