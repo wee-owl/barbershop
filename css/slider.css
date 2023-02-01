@@ -1,10 +1,7 @@
 .slider {
   position: relative;
   overflow: hidden;
-}
-
-.slider__container {
-  /* display: none */
+  min-height: 272px;
 }
 
 .slider__list {
