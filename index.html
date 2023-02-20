@@ -160,7 +160,7 @@
 
         <form class="reserve__form">
           <div class="reserve__form-container">
-            <fieldset class="reserve__fieldset">
+            <fieldset class="reserve__fieldset reserve__fieldset_service" name="fieldservice">
               <legend class="reserve__legend">Услуга</legend>
 
               <label class="radio">
@@ -199,117 +199,98 @@
               </label>
             </fieldset>
 
-            <fieldset class="reserve__fieldset">
+            <fieldset class="reserve__fieldset" name="fieldspec">
               <legend class="reserve__legend">Специалист</legend>
 
               <label class="radio">
-                <input class="radio__input" type="radio" name="specialist">
+                <input class="radio__input" type="radio" name="spec">
                 <span class="radio__label radio__label_spec" style="--bg-image: url(../img/igor.png)">Игорь</span>
               </label>
 
               <label class="radio">
-                <input class="radio__input" type="radio" name="specialist">
+                <input class="radio__input" type="radio" name="spec">
                 <span class="radio__label radio__label_spec" style="--bg-image: url(../img/anatoly.png)">Анатолий</span>
               </label>
 
               <label class="radio">
-                <input class="radio__input" type="radio" name="specialist">
+                <input class="radio__input" type="radio" name="spec">
                 <span class="radio__label radio__label_spec" style="--bg-image: url(../img/ruslan.png)">Руслан</span>
               </label>
 
               <label class="radio">
-                <input class="radio__input" type="radio" name="specialist">
+                <input class="radio__input" type="radio" name="spec">
                 <span class="radio__label radio__label_spec" style="--bg-image: url(../img/mikhail.png)">Михаил</span>
               </label>
 
               <label class="radio">
-                <input class="radio__input" type="radio" name="specialist">
+                <input class="radio__input" type="radio" name="spec">
                 <span class="radio__label radio__label_spec" style="--bg-image: url(../img/evgeniy.png)">Евгений</span>
               </label>
             </fieldset>
 
-            <fieldset class="reserve__fieldset">
+            <fieldset class="reserve__fieldset" name="fielddata">
               <legend class="reserve__legend">Дата и время</legend>
 
-              <fieldset class="reserve__fieldset reserve__fieldset_sub">
+              <fieldset class="reserve__fieldset reserve__fieldset_sub" name="fieldmonth">
                 <label class="radio">
                   <input class="radio__input" type="radio" name="month">
-                  <span class="radio__label">Январь</span>
+                  <span class="radio__label">Месяц</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="month">
-                  <span class="radio__label">Февраль</span>
+                  <span class="radio__label">Месяц</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="month">
-                  <span class="radio__label">Март</span>
+                  <span class="radio__label">Месяц</span>
                 </label>
               </fieldset>
 
-              <fieldset class="reserve__fieldset reserve__fieldset_sub">
+              <fieldset class="reserve__fieldset reserve__fieldset_sub" name="fieldday">
                 <label class="radio">
                   <input class="radio__input" type="radio" name="day">
-                  <span class="radio__label">18 января</span>
+                  <span class="radio__label">Дата</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="day">
-                  <span class="radio__label">19 января</span>
+                  <span class="radio__label">Дата</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="day">
-                  <span class="radio__label">20 января</span>
+                  <span class="radio__label">Дата</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="day">
-                  <span class="radio__label">21 января</span>
+                  <span class="radio__label">Дата</span>
                 </label>
               </fieldset>
 
-              <fieldset class="reserve__fieldset reserve__fieldset_sub">
+              <fieldset class="reserve__fieldset reserve__fieldset_sub" name="fieldtime">
                 <label class="radio">
                   <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">10:00-11:30</span>
+                  <span class="radio__label">Время</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">11:30-13:00</span>
+                  <span class="radio__label">Время</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">13:00-14:30</span>
+                  <span class="radio__label">Время</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">14:30-16:00</span>
+                  <span class="radio__label">Время</span>
                 </label>
-
                 <label class="radio">
                   <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">16:00-17:30</span>
-                </label>
-
-                <label class="radio">
-                  <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">17:30-19:00</span>
-                </label>
-
-                <label class="radio">
-                  <input class="radio__input" type="radio" name="time">
-                  <span class="radio__label">19:00-20:30</span>
+                  <span class="radio__label">Время</span>
                 </label>
               </fieldset>
             </fieldset>
           </div>
 
-          <button class="reserve__btn main-link">Записаться</button>
+          <button class="reserve__btn main-link" id="btn" disabled>Записаться</button>
         </form>
       </div>
     </section>

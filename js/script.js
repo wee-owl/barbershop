@@ -1,3 +1,8 @@
+const API_URL = 'https://childish-oil-motion.glitch.me/';
+
+const year = new Date().getFullYear();
+
+
 const addPreload = (elem) => {
   elem.classList.add('preload');
 };
@@ -79,4 +84,233 @@ const initSlider = () => {
   });
 };
 
-window.addEventListener('DOMContentLoaded', initSlider);
+const renderPrice = (wrapper, data) => {
+  data.forEach(item => {
+    const priceItem = document.createElement('li');
+    priceItem.classList.add('price__item');
+
+    priceItem.innerHTML = `
+      <span class="price__item-title">${item.name}</span>
+      <span class="price__item-count">${item.price} руб</span>
+    `;
+
+    wrapper.append(priceItem);
+  });
+};
+
+const renderService = (wrapper, data) => {
+  const labels = data.map(item => {
+    const label = document.createElement('label');
+    label.classList.add('radio');
+    label.innerHTML = `
+      <input class="radio__input" type="radio" name="service" value="${item.id}">
+      <span class="radio__label">${item.name}</span>
+    `;
+    return label;
+  });
+
+  wrapper.append(...labels);
+};
+
+const initService = () => {
+  const priceList = document.querySelector('.price__list');
+  const reserveFieldsetService = document.querySelector('.reserve__fieldset_service');
+
+  priceList.textContent = '';
+  addPreload(priceList);
+
+  reserveFieldsetService.innerHTML = '<legend class="reserve__legend">Услуга</legend>';
+  addPreload(reserveFieldsetService);
+
+  fetch(`${API_URL}/api`)
+    .then(response => response.json())
+    .then(data => {
+      renderPrice(priceList, data);
+      removePreload(priceList);
+      return data;
+    })
+    .then(data => {
+      renderService(reserveFieldsetService, data);
+      removePreload(reserveFieldsetService);
+    })
+};
+
+const addDisabled = (arr) => {
+  arr.forEach(elem => {
+    elem.disabled = true;
+  });
+};
+
+const removeDisabled = (arr) => {
+  arr.forEach(elem => {
+    elem.disabled = false;
+  });
+};
+
+const renderSpec = (wrapper, data) => {
+  const labels = data.map(item => {
+    const label = document.createElement('label');
+    label.classList.add('radio');
+    label.innerHTML = `
+      <input class="radio__input" type="radio" name="spec" value="${item.id}">
+      <span class="radio__label radio__label_spec" style="--bg-image: url(${API_URL}${item.img})">${item.name}</span>
+    `;
+    return label;
+  });
+
+  wrapper.append(...labels);
+};
+
+const renderMonth = (wrapper, data) => {
+  const labels = data.map(item => {
+    const label = document.createElement('label');
+    label.classList.add('radio');
+    label.innerHTML = `
+      <input class="radio__input" type="radio" name="month" value="${item}">
+      <span class="radio__label">${new Intl.DateTimeFormat('ru-RU', {
+        month: 'long'
+      }).format(new Date(year, item))}</span>
+    `;
+    return label;
+  });
+
+  wrapper.append(...labels);
+};
+
+const renderDay = (wrapper, data, month) => {
+  const labels = data.map(item => {
+    const label = document.createElement('label');
+    label.classList.add('radio');
+    label.innerHTML = `
+      <input class="radio__input" type="radio" name="day" value="${item}">
+      <span class="radio__label">${new Intl.DateTimeFormat('ru-RU', {
+        month: 'long',
+        day: 'numeric'
+      }).format(new Date(year, month, item))}</span>
+    `;
+    return label;
+  });
+
+  wrapper.append(...labels);
+};
+
+const renderTime = (wrapper, data) => {
+  const labels = data.map(item => {
+    const label = document.createElement('label');
+    label.classList.add('radio');
+    label.innerHTML = `
+      <input class="radio__input" type="radio" name="time" value="${item}">
+      <span class="radio__label">${item}</span>
+    `;
+    return label;
+  });
+
+  wrapper.append(...labels);
+};
+
+const initReserve = () => {
+  const reserveForm = document.querySelector('.reserve__form');
+  const { fieldservice, fieldspec, fielddata, fieldmonth, fieldday, fieldtime, btn } = reserveForm;
+
+  addDisabled([fieldspec, fielddata, fieldmonth, fieldday, fieldtime, btn]);
+
+  reserveForm.addEventListener('change', async (event) => {
+    const target = event.target;
+
+    if (target.name === 'service') {
+      addDisabled([fieldspec, fielddata, fieldmonth, fieldday, fieldtime, btn]);
+      fieldspec.innerHTML = '<legend class="reserve__legend">Специалист</legend>';
+      addPreload(fieldspec);
+      const response = await fetch(`${API_URL}/api?service=${target.value}`);
+      const data = await response.json();
+      renderSpec(fieldspec, data);
+      removePreload(fieldspec);
+      removeDisabled([fieldspec]);
+    }
+
+    if (target.name === 'spec') {
+      addDisabled([fielddata, fieldmonth, fieldday, fieldtime, btn]);
+      fieldmonth.textContent = '';
+      addPreload(fieldmonth);
+      const response = await fetch(`${API_URL}/api?spec=${target.value}`);
+      const data = await response.json();
+      renderMonth(fieldmonth, data);
+      removePreload(fieldmonth);
+      removeDisabled([fielddata, fieldmonth]);
+    }
+
+    if (target.name === 'month') {
+      addDisabled([fieldday, fieldtime, btn]);
+      fieldday.textContent = '';
+      addPreload(fieldday);
+      const response = await fetch(`${API_URL}/api?spec=${reserveForm.spec.value}&month=${target.value}`);
+      const data = await response.json();
+      renderDay(fieldday, data, target.value);
+      removePreload(fieldday);
+      removeDisabled([fieldday]);
+    }
+
+    if (target.name === 'day') {
+      addDisabled([fieldtime, btn]);
+      fieldtime.textContent = '';
+      addPreload(fieldtime);
+      const response = await fetch(`${API_URL}/api?spec=${reserveForm.spec.value}&month=${reserveForm.month.value}&day=${target.value}`);
+      const data = await response.json();
+      renderTime(fieldtime, data);
+      removePreload(fieldtime);
+      removeDisabled([fieldtime]);
+    }
+
+    if (target.name === 'time') {
+      removeDisabled([btn]);
+    }
+  });
+
+  reserveForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(reserveForm);
+    const json = JSON.stringify(Object.fromEntries(formData));
+
+    const response = await fetch(`${API_URL}api/order`, {
+      method: 'post',
+      body: json,
+    });
+
+    const data = await response.json();
+    let nowMonth = String(parseInt(data.month, 10) + 1);
+
+    addDisabled([fieldservice, fieldspec, fielddata, fieldmonth, fieldday, fieldtime, btn]);
+
+    const p = document.createElement('p');
+    const popupBtn = document.createElement('button');
+    p.classList.add('popup');
+    p.textContent = `
+      Номер бронирования №${data.id}.
+      Ждем вас ${new Intl.DateTimeFormat('ru-RU', {
+        month: 'long',
+        day: 'numeric',
+      }).format(new Date(`${nowMonth}/${data.day}`))},
+      время ${data.time}
+    `;
+
+    popupBtn.classList.add('popup_btn');
+    popupBtn.textContent = `OK`;
+    p.append(popupBtn);
+
+    reserveForm.append(p);
+
+    const popupClose = document.querySelector('.popup_btn');
+    popupClose.addEventListener('click', () => {
+      location. reload();
+    });
+  });
+};
+
+const init = () => {
+  initSlider();
+  initService();
+  initReserve();
+};
+
+window.addEventListener('DOMContentLoaded', init);
